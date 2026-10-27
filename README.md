@@ -1,5 +1,7 @@
 # wp-ssh-mcp: WordPress MCP server for the WP SSH plugin
 
+![Demo](assets/demo.gif)
+
 ![License: GPL v2+](https://img.shields.io/badge/license-GPLv2%2B-blue)
 ![Node 18+](https://img.shields.io/badge/node-%3E%3D18-brightgreen)
 ![Self-hosted](https://img.shields.io/badge/third--party%20server-none-brightgreen)
