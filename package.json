@@ -1,0 +1,58 @@
+{
+  "name": "wp-ssh-mcp",
+  "version": "0.1.0",
+  "description": "MCP server for the WP SSH WordPress plugin: let Claude, Cursor and other MCP clients manage your self-hosted WordPress site without SSH.",
+  "main": "dist/server.js",
+  "scripts": {
+    "build": "tsc && chmod +x dist/index.js",
+    "gen:openapi": "node scripts/gen-openapi.mjs",
+    "test": "npm run build && node test/smoke.mjs",
+    "prepublishOnly": "npm run build && npm run gen:openapi"
+  },
+  "keywords": [
+    "wordpress",
+    "wordpress-mcp",
+    "mcp",
+    "mcp-server",
+    "model-context-protocol",
+    "claude",
+    "chatgpt",
+    "ai-agents",
+    "woocommerce",
+    "elementor",
+    "self-hosted",
+    "automation"
+  ],
+  "author": "MSSOFTPC",
+  "license": "GPL-2.0-or-later",
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.32.2",
+    "zod": "^4.6.7"
+  },
+  "devDependencies": {
+    "@types/node": "^26.6.5",
+    "typescript": "^7.0.2"
+  },
+  "type": "module",
+  "bin": {
+    "wp-ssh-mcp": "dist/index.js"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE",
+    "openapi.json",
+    "openapi.full.json"
+  ],
+  "engines": {
+    "node": ">=18"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MSSOFTPC/wp-ssh-mcp.git"
+  },
+  "homepage": "https://github.com/MSSOFTPC/wp-ssh-mcp#readme",
+  "bugs": {
+    "url": "https://github.com/MSSOFTPC/wp-ssh-mcp/issues"
+  }
+}

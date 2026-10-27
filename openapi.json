@@ -1,0 +1,1403 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "WP SSH: self-hosted AI bridge for WordPress",
+    "version": "0.1.0",
+    "description": "Authenticated, scoped actions for managing a WordPress site you own. Replace the server URL with your site. Send the secret key from Tools > WP SSH in the X-WPSSH-Key header. This file covers read and content-write actions only (no file writes, write SQL, deletes or plugin activation).",
+    "license": {
+      "name": "GPL-2.0-or-later",
+      "url": "https://www.gnu.org/licenses/gpl-2.0.html"
+    }
+  },
+  "servers": [
+    {
+      "url": "https://yoursite.com",
+      "description": "Replace with your own WordPress site (HTTPS only)"
+    }
+  ],
+  "security": [
+    {
+      "WpSshKey": []
+    }
+  ],
+  "paths": {
+    "/wp-json/wp-ssh/v1/execute": {
+      "post": {
+        "operationId": "execute",
+        "summary": "Run one WP SSH action",
+        "description": "Send {\"action\": \"<name>\", \"params\": {...}}. Start with site_info. Prefer read actions first; ask the user before any change.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "oneOf": [
+                  {
+                    "$ref": "#/components/schemas/SiteInfoRequest"
+                  },
+                  {
+                    "$ref": "#/components/schemas/DiagnosticsRequest"
+                  },
+                  {
+                    "$ref": "#/components/schemas/HealthCheckStatusRequest"
+                  },
+                  {
+                    "$ref": "#/components/schemas/HealthCheckRunRequest"
+                  },
+                  {
+                    "$ref": "#/components/schemas/CronListRequest"
+                  },
+                  {
+                    "$ref": "#/components/schemas/CronRunRequest"
+                  },
+                  {
+                    "$ref": "#/components/schemas/OptionGetRequest"
+                  },
+                  {
+                    "$ref": "#/components/schemas/OptionUpdateRequest"
+                  },
+                  {
+                    "$ref": "#/components/schemas/PostListRequest"
+                  },
+                  {
+                    "$ref": "#/components/schemas/PostGetRequest"
+                  },
+                  {
+                    "$ref": "#/components/schemas/PostCreateRequest"
+                  },
+                  {
+                    "$ref": "#/components/schemas/PostUpdateRequest"
+                  },
+                  {
+                    "$ref": "#/components/schemas/TermListRequest"
+                  },
+                  {
+                    "$ref": "#/components/schemas/TermCreateRequest"
+                  },
+                  {
+                    "$ref": "#/components/schemas/MenuListRequest"
+                  },
+                  {
+                    "$ref": "#/components/schemas/MenuItemAddRequest"
+                  },
+                  {
+                    "$ref": "#/components/schemas/WidgetAddRequest"
+                  },
+                  {
+                    "$ref": "#/components/schemas/MediaListRequest"
+                  },
+                  {
+                    "$ref": "#/components/schemas/MediaUploadRequest"
+                  },
+                  {
+                    "$ref": "#/components/schemas/PluginListRequest"
+                  },
+                  {
+                    "$ref": "#/components/schemas/ThemeListRequest"
+                  },
+                  {
+                    "$ref": "#/components/schemas/FileListRequest"
+                  },
+                  {
+                    "$ref": "#/components/schemas/FileReadRequest"
+                  },
+                  {
+                    "$ref": "#/components/schemas/DbQueryRequest"
+                  },
+                  {
+                    "$ref": "#/components/schemas/SearchReplaceRequest"
+                  },
+                  {
+                    "$ref": "#/components/schemas/CacheClearRequest"
+                  },
+                  {
+                    "$ref": "#/components/schemas/OrderListRequest"
+                  },
+                  {
+                    "$ref": "#/components/schemas/OrderGetRequest"
+                  },
+                  {
+                    "$ref": "#/components/schemas/OrderUpdateStatusRequest"
+                  },
+                  {
+                    "$ref": "#/components/schemas/ProductAttributeSetRequest"
+                  },
+                  {
+                    "$ref": "#/components/schemas/ElementorDataGetRequest"
+                  },
+                  {
+                    "$ref": "#/components/schemas/ElementorDataSetRequest"
+                  },
+                  {
+                    "$ref": "#/components/schemas/TemplateExportRequest"
+                  },
+                  {
+                    "$ref": "#/components/schemas/TemplateImportRequest"
+                  }
+                ],
+                "discriminator": {
+                  "propertyName": "action",
+                  "mapping": {
+                    "site_info": "#/components/schemas/SiteInfoRequest",
+                    "diagnostics": "#/components/schemas/DiagnosticsRequest",
+                    "health_check_status": "#/components/schemas/HealthCheckStatusRequest",
+                    "health_check_run": "#/components/schemas/HealthCheckRunRequest",
+                    "cron_list": "#/components/schemas/CronListRequest",
+                    "cron_run": "#/components/schemas/CronRunRequest",
+                    "option_get": "#/components/schemas/OptionGetRequest",
+                    "option_update": "#/components/schemas/OptionUpdateRequest",
+                    "post_list": "#/components/schemas/PostListRequest",
+                    "post_get": "#/components/schemas/PostGetRequest",
+                    "post_create": "#/components/schemas/PostCreateRequest",
+                    "post_update": "#/components/schemas/PostUpdateRequest",
+                    "term_list": "#/components/schemas/TermListRequest",
+                    "term_create": "#/components/schemas/TermCreateRequest",
+                    "menu_list": "#/components/schemas/MenuListRequest",
+                    "menu_item_add": "#/components/schemas/MenuItemAddRequest",
+                    "widget_add": "#/components/schemas/WidgetAddRequest",
+                    "media_list": "#/components/schemas/MediaListRequest",
+                    "media_upload": "#/components/schemas/MediaUploadRequest",
+                    "plugin_list": "#/components/schemas/PluginListRequest",
+                    "theme_list": "#/components/schemas/ThemeListRequest",
+                    "file_list": "#/components/schemas/FileListRequest",
+                    "file_read": "#/components/schemas/FileReadRequest",
+                    "db_query": "#/components/schemas/DbQueryRequest",
+                    "search_replace": "#/components/schemas/SearchReplaceRequest",
+                    "cache_clear": "#/components/schemas/CacheClearRequest",
+                    "order_list": "#/components/schemas/OrderListRequest",
+                    "order_get": "#/components/schemas/OrderGetRequest",
+                    "order_update_status": "#/components/schemas/OrderUpdateStatusRequest",
+                    "product_attribute_set": "#/components/schemas/ProductAttributeSetRequest",
+                    "elementor_data_get": "#/components/schemas/ElementorDataGetRequest",
+                    "elementor_data_set": "#/components/schemas/ElementorDataSetRequest",
+                    "template_export": "#/components/schemas/TemplateExportRequest",
+                    "template_import": "#/components/schemas/TemplateImportRequest"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Action result",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Invalid or missing secret key",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Bridge disabled, read-only mode, or IP not allowed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Locked out after failed attempts or rate limited"
+          }
+        }
+      }
+    },
+    "/wp-json/wp-ssh/v1/ping": {
+      "get": {
+        "operationId": "ping",
+        "summary": "Check the plugin is installed (no key needed)",
+        "description": "Returns plugin, version, site and label.",
+        "security": [],
+        "responses": {
+          "200": {
+            "description": "Plugin info"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "WpSshKey": {
+        "type": "apiKey",
+        "in": "header",
+        "name": "X-WPSSH-Key"
+      }
+    },
+    "schemas": {
+      "SiteInfoRequest": {
+        "type": "object",
+        "description": "Site name, label, URL, WordPress / theme / WooCommerce versions. Good first call.",
+        "required": [
+          "action"
+        ],
+        "properties": {
+          "action": {
+            "type": "string",
+            "enum": [
+              "site_info"
+            ]
+          },
+          "params": {
+            "type": "object",
+            "additionalProperties": false
+          }
+        },
+        "additionalProperties": false
+      },
+      "DiagnosticsRequest": {
+        "type": "object",
+        "description": "PHP/memory config, autoload options size, DB size and largest tables, transients/revisions counts, active caching plugins.",
+        "required": [
+          "action"
+        ],
+        "properties": {
+          "action": {
+            "type": "string",
+            "enum": [
+              "diagnostics"
+            ]
+          },
+          "params": {
+            "type": "object",
+            "additionalProperties": false
+          }
+        },
+        "additionalProperties": false
+      },
+      "HealthCheckStatusRequest": {
+        "type": "object",
+        "description": "Result of the last hourly self-check (if health checks are enabled).",
+        "required": [
+          "action"
+        ],
+        "properties": {
+          "action": {
+            "type": "string",
+            "enum": [
+              "health_check_status"
+            ]
+          },
+          "params": {
+            "type": "object",
+            "additionalProperties": false
+          }
+        },
+        "additionalProperties": false
+      },
+      "HealthCheckRunRequest": {
+        "type": "object",
+        "description": "Run the health check now (DB connection, PHP fatals in debug.log, low disk space, bridge disabled).",
+        "required": [
+          "action"
+        ],
+        "properties": {
+          "action": {
+            "type": "string",
+            "enum": [
+              "health_check_run"
+            ]
+          },
+          "params": {
+            "type": "object",
+            "additionalProperties": false
+          }
+        },
+        "additionalProperties": false
+      },
+      "CronListRequest": {
+        "type": "object",
+        "description": "All scheduled WP-Cron events, soonest first.",
+        "required": [
+          "action"
+        ],
+        "properties": {
+          "action": {
+            "type": "string",
+            "enum": [
+              "cron_list"
+            ]
+          },
+          "params": {
+            "type": "object",
+            "additionalProperties": false
+          }
+        },
+        "additionalProperties": false
+      },
+      "CronRunRequest": {
+        "type": "object",
+        "description": "Manually fire a WP-Cron hook right now.",
+        "required": [
+          "action",
+          "params"
+        ],
+        "properties": {
+          "action": {
+            "type": "string",
+            "enum": [
+              "cron_run"
+            ]
+          },
+          "params": {
+            "type": "object",
+            "properties": {
+              "hook": {
+                "type": "string",
+                "description": "Cron hook name"
+              },
+              "args": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "description": "Optional hook arguments"
+              }
+            },
+            "required": [
+              "hook"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "additionalProperties": false
+      },
+      "OptionGetRequest": {
+        "type": "object",
+        "description": "Read a WordPress option by name.",
+        "required": [
+          "action",
+          "params"
+        ],
+        "properties": {
+          "action": {
+            "type": "string",
+            "enum": [
+              "option_get"
+            ]
+          },
+          "params": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string",
+                "description": "Option name"
+              }
+            },
+            "required": [
+              "name"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "additionalProperties": false
+      },
+      "OptionUpdateRequest": {
+        "type": "object",
+        "description": "Update a WordPress option. Read the current value first and tell the user what you will change.",
+        "required": [
+          "action",
+          "params"
+        ],
+        "properties": {
+          "action": {
+            "type": "string",
+            "enum": [
+              "option_update"
+            ]
+          },
+          "params": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string",
+                "description": "Option name"
+              },
+              "value": {
+                "description": "New value (string, number, boolean, array or object)"
+              }
+            },
+            "required": [
+              "name",
+              "value"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "additionalProperties": false
+      },
+      "PostListRequest": {
+        "type": "object",
+        "description": "List posts/pages/custom post types.",
+        "required": [
+          "action"
+        ],
+        "properties": {
+          "action": {
+            "type": "string",
+            "enum": [
+              "post_list"
+            ]
+          },
+          "params": {
+            "type": "object",
+            "properties": {
+              "post_type": {
+                "type": "string",
+                "description": "e.g. post, page, product"
+              },
+              "post_status": {
+                "type": "string",
+                "description": "e.g. publish, draft, any"
+              },
+              "limit": {
+                "type": "number",
+                "description": "Max items"
+              },
+              "search": {
+                "type": "string",
+                "description": "Search term"
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "additionalProperties": false
+      },
+      "PostGetRequest": {
+        "type": "object",
+        "description": "Get one post by ID.",
+        "required": [
+          "action",
+          "params"
+        ],
+        "properties": {
+          "action": {
+            "type": "string",
+            "enum": [
+              "post_get"
+            ]
+          },
+          "params": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "number",
+                "description": "Post ID"
+              }
+            },
+            "required": [
+              "id"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "additionalProperties": false
+      },
+      "PostCreateRequest": {
+        "type": "object",
+        "description": "Create a post/page. Prefer post_status=draft unless the user asked to publish.",
+        "required": [
+          "action",
+          "params"
+        ],
+        "properties": {
+          "action": {
+            "type": "string",
+            "enum": [
+              "post_create"
+            ]
+          },
+          "params": {
+            "type": "object",
+            "properties": {
+              "title": {
+                "type": "string",
+                "description": "Title"
+              },
+              "content": {
+                "type": "string",
+                "description": "HTML content"
+              },
+              "excerpt": {
+                "type": "string",
+                "description": "Excerpt"
+              },
+              "post_type": {
+                "type": "string",
+                "description": "Post type, default post"
+              },
+              "post_status": {
+                "type": "string",
+                "description": "draft, publish, ..."
+              },
+              "slug": {
+                "type": "string",
+                "description": "URL slug"
+              },
+              "meta": {
+                "type": "object",
+                "description": "Post meta key/value pairs"
+              }
+            },
+            "required": [
+              "title"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "additionalProperties": false
+      },
+      "PostUpdateRequest": {
+        "type": "object",
+        "description": "Update a post. Only send the fields you want to change.",
+        "required": [
+          "action",
+          "params"
+        ],
+        "properties": {
+          "action": {
+            "type": "string",
+            "enum": [
+              "post_update"
+            ]
+          },
+          "params": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "number",
+                "description": "Post ID"
+              },
+              "title": {
+                "type": "string",
+                "description": "Title"
+              },
+              "content": {
+                "type": "string",
+                "description": "HTML content"
+              },
+              "excerpt": {
+                "type": "string",
+                "description": "Excerpt"
+              },
+              "status": {
+                "type": "string",
+                "description": "New status"
+              },
+              "slug": {
+                "type": "string",
+                "description": "URL slug"
+              },
+              "meta": {
+                "type": "object",
+                "description": "Post meta key/value pairs"
+              }
+            },
+            "required": [
+              "id"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "additionalProperties": false
+      },
+      "TermListRequest": {
+        "type": "object",
+        "description": "List taxonomy terms.",
+        "required": [
+          "action"
+        ],
+        "properties": {
+          "action": {
+            "type": "string",
+            "enum": [
+              "term_list"
+            ]
+          },
+          "params": {
+            "type": "object",
+            "properties": {
+              "taxonomy": {
+                "type": "string",
+                "description": "Taxonomy, default category"
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "additionalProperties": false
+      },
+      "TermCreateRequest": {
+        "type": "object",
+        "description": "Create a taxonomy term.",
+        "required": [
+          "action",
+          "params"
+        ],
+        "properties": {
+          "action": {
+            "type": "string",
+            "enum": [
+              "term_create"
+            ]
+          },
+          "params": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string",
+                "description": "Term name"
+              },
+              "taxonomy": {
+                "type": "string",
+                "description": "Taxonomy"
+              },
+              "slug": {
+                "type": "string",
+                "description": "Slug"
+              }
+            },
+            "required": [
+              "name"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "additionalProperties": false
+      },
+      "MenuListRequest": {
+        "type": "object",
+        "description": "List navigation menus.",
+        "required": [
+          "action"
+        ],
+        "properties": {
+          "action": {
+            "type": "string",
+            "enum": [
+              "menu_list"
+            ]
+          },
+          "params": {
+            "type": "object",
+            "additionalProperties": false
+          }
+        },
+        "additionalProperties": false
+      },
+      "MenuItemAddRequest": {
+        "type": "object",
+        "description": "Add an item to a navigation menu.",
+        "required": [
+          "action",
+          "params"
+        ],
+        "properties": {
+          "action": {
+            "type": "string",
+            "enum": [
+              "menu_item_add"
+            ]
+          },
+          "params": {
+            "type": "object",
+            "properties": {
+              "menu": {
+                "type": "string",
+                "description": "Menu name, slug or ID"
+              },
+              "title": {
+                "type": "string",
+                "description": "Link title"
+              },
+              "object_id": {
+                "type": "number",
+                "description": "Linked object ID"
+              },
+              "object_type": {
+                "type": "string",
+                "description": "e.g. page, post, category"
+              },
+              "url": {
+                "type": "string",
+                "description": "Custom URL (if not linking an object)"
+              },
+              "position": {
+                "type": "number",
+                "description": "Menu order"
+              },
+              "parent_id": {
+                "type": "number",
+                "description": "Parent menu item ID"
+              }
+            },
+            "required": [
+              "menu",
+              "title"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "additionalProperties": false
+      },
+      "WidgetAddRequest": {
+        "type": "object",
+        "description": "Add a widget to a sidebar.",
+        "required": [
+          "action",
+          "params"
+        ],
+        "properties": {
+          "action": {
+            "type": "string",
+            "enum": [
+              "widget_add"
+            ]
+          },
+          "params": {
+            "type": "object",
+            "properties": {
+              "sidebar_id": {
+                "type": "string",
+                "description": "Sidebar ID"
+              },
+              "id_base": {
+                "type": "string",
+                "description": "Widget id_base, e.g. text"
+              },
+              "instance": {
+                "type": "object",
+                "description": "Widget settings"
+              }
+            },
+            "required": [
+              "sidebar_id",
+              "id_base",
+              "instance"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "additionalProperties": false
+      },
+      "MediaListRequest": {
+        "type": "object",
+        "description": "List media library items.",
+        "required": [
+          "action"
+        ],
+        "properties": {
+          "action": {
+            "type": "string",
+            "enum": [
+              "media_list"
+            ]
+          },
+          "params": {
+            "type": "object",
+            "properties": {
+              "limit": {
+                "type": "number",
+                "description": "Max items"
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "additionalProperties": false
+      },
+      "MediaUploadRequest": {
+        "type": "object",
+        "description": "Upload an image (jpg, jpeg, png, gif, webp, svg) to the media library.",
+        "required": [
+          "action",
+          "params"
+        ],
+        "properties": {
+          "action": {
+            "type": "string",
+            "enum": [
+              "media_upload"
+            ]
+          },
+          "params": {
+            "type": "object",
+            "properties": {
+              "filename": {
+                "type": "string",
+                "description": "File name with extension"
+              },
+              "content_base64": {
+                "type": "string",
+                "description": "Base64-encoded file content"
+              },
+              "title": {
+                "type": "string",
+                "description": "Media title"
+              }
+            },
+            "required": [
+              "filename",
+              "content_base64"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "additionalProperties": false
+      },
+      "PluginListRequest": {
+        "type": "object",
+        "description": "List installed plugins and their active state.",
+        "required": [
+          "action"
+        ],
+        "properties": {
+          "action": {
+            "type": "string",
+            "enum": [
+              "plugin_list"
+            ]
+          },
+          "params": {
+            "type": "object",
+            "additionalProperties": false
+          }
+        },
+        "additionalProperties": false
+      },
+      "ThemeListRequest": {
+        "type": "object",
+        "description": "List installed themes.",
+        "required": [
+          "action"
+        ],
+        "properties": {
+          "action": {
+            "type": "string",
+            "enum": [
+              "theme_list"
+            ]
+          },
+          "params": {
+            "type": "object",
+            "additionalProperties": false
+          }
+        },
+        "additionalProperties": false
+      },
+      "FileListRequest": {
+        "type": "object",
+        "description": "List a directory inside wp-content.",
+        "required": [
+          "action"
+        ],
+        "properties": {
+          "action": {
+            "type": "string",
+            "enum": [
+              "file_list"
+            ]
+          },
+          "params": {
+            "type": "object",
+            "properties": {
+              "path": {
+                "type": "string",
+                "description": "Path relative to wp-content"
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "additionalProperties": false
+      },
+      "FileReadRequest": {
+        "type": "object",
+        "description": "Read a file inside wp-content.",
+        "required": [
+          "action",
+          "params"
+        ],
+        "properties": {
+          "action": {
+            "type": "string",
+            "enum": [
+              "file_read"
+            ]
+          },
+          "params": {
+            "type": "object",
+            "properties": {
+              "path": {
+                "type": "string",
+                "description": "Path relative to wp-content"
+              }
+            },
+            "required": [
+              "path"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "additionalProperties": false
+      },
+      "DbQueryRequest": {
+        "type": "object",
+        "description": "Run a read-only SQL query (SELECT / SHOW / DESCRIBE / EXPLAIN, one statement). Use LIMIT.",
+        "required": [
+          "action",
+          "params"
+        ],
+        "properties": {
+          "action": {
+            "type": "string",
+            "enum": [
+              "db_query"
+            ]
+          },
+          "params": {
+            "type": "object",
+            "properties": {
+              "sql": {
+                "type": "string",
+                "description": "A single read-only SQL statement"
+              }
+            },
+            "required": [
+              "sql"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "additionalProperties": false
+      },
+      "SearchReplaceRequest": {
+        "type": "object",
+        "description": "DRY RUN of a serialization-safe search/replace across the database. Shows what would change, changes nothing.",
+        "required": [
+          "action",
+          "params"
+        ],
+        "properties": {
+          "action": {
+            "type": "string",
+            "enum": [
+              "search_replace"
+            ]
+          },
+          "params": {
+            "type": "object",
+            "properties": {
+              "search": {
+                "type": "string",
+                "description": "Text to find"
+              },
+              "replace": {
+                "type": "string",
+                "description": "Replacement text"
+              },
+              "tables": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "description": "Limit to these tables"
+              },
+              "dry_run": {
+                "type": "boolean",
+                "enum": [
+                  true
+                ],
+                "description": "Must be true for this action."
+              }
+            },
+            "required": [
+              "search",
+              "replace",
+              "dry_run"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "additionalProperties": false
+      },
+      "CacheClearRequest": {
+        "type": "object",
+        "description": "Clear Elementor CSS/render cache, theme compiled CSS, object cache and popular page-cache plugins.",
+        "required": [
+          "action"
+        ],
+        "properties": {
+          "action": {
+            "type": "string",
+            "enum": [
+              "cache_clear"
+            ]
+          },
+          "params": {
+            "type": "object",
+            "properties": {
+              "post_id": {
+                "type": "number",
+                "description": "Clear cache for one post only"
+              },
+              "all_elementor": {
+                "type": "boolean",
+                "description": "Clear all Elementor caches"
+              },
+              "transients": {
+                "type": "boolean",
+                "description": "Also delete transients"
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "additionalProperties": false
+      },
+      "OrderListRequest": {
+        "type": "object",
+        "description": "List WooCommerce orders (WooCommerce must be active).",
+        "required": [
+          "action"
+        ],
+        "properties": {
+          "action": {
+            "type": "string",
+            "enum": [
+              "order_list"
+            ]
+          },
+          "params": {
+            "type": "object",
+            "properties": {
+              "limit": {
+                "type": "number",
+                "description": "Max items"
+              },
+              "status": {
+                "type": "string",
+                "description": "e.g. processing, completed"
+              },
+              "search": {
+                "type": "string",
+                "description": "Search term"
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "additionalProperties": false
+      },
+      "OrderGetRequest": {
+        "type": "object",
+        "description": "Full order detail including line items and addresses.",
+        "required": [
+          "action",
+          "params"
+        ],
+        "properties": {
+          "action": {
+            "type": "string",
+            "enum": [
+              "order_get"
+            ]
+          },
+          "params": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "number",
+                "description": "Order ID"
+              }
+            },
+            "required": [
+              "id"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "additionalProperties": false
+      },
+      "OrderUpdateStatusRequest": {
+        "type": "object",
+        "description": "Change an order's status. May trigger customer emails.",
+        "required": [
+          "action",
+          "params"
+        ],
+        "properties": {
+          "action": {
+            "type": "string",
+            "enum": [
+              "order_update_status"
+            ]
+          },
+          "params": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "number",
+                "description": "Order ID"
+              },
+              "status": {
+                "type": "string",
+                "description": "New status"
+              },
+              "note": {
+                "type": "string",
+                "description": "Order note"
+              }
+            },
+            "required": [
+              "id",
+              "status"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "additionalProperties": false
+      },
+      "ProductAttributeSetRequest": {
+        "type": "object",
+        "description": "Set a product attribute and its terms in one call.",
+        "required": [
+          "action",
+          "params"
+        ],
+        "properties": {
+          "action": {
+            "type": "string",
+            "enum": [
+              "product_attribute_set"
+            ]
+          },
+          "params": {
+            "type": "object",
+            "properties": {
+              "product_id": {
+                "type": "number",
+                "description": "Product ID"
+              },
+              "taxonomy": {
+                "type": "string",
+                "description": "Attribute taxonomy, e.g. pa_color"
+              },
+              "term_ids": {
+                "type": "array",
+                "items": {
+                  "type": "number"
+                },
+                "description": "Term IDs"
+              },
+              "is_variation": {
+                "type": "boolean",
+                "description": "Use for variations"
+              }
+            },
+            "required": [
+              "product_id",
+              "taxonomy",
+              "term_ids"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "additionalProperties": false
+      },
+      "ElementorDataGetRequest": {
+        "type": "object",
+        "description": "Raw _elementor_data JSON of a page. Can be very large.",
+        "required": [
+          "action",
+          "params"
+        ],
+        "properties": {
+          "action": {
+            "type": "string",
+            "enum": [
+              "elementor_data_get"
+            ]
+          },
+          "params": {
+            "type": "object",
+            "properties": {
+              "post_id": {
+                "type": "number",
+                "description": "Post ID"
+              }
+            },
+            "required": [
+              "post_id"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "additionalProperties": false
+      },
+      "ElementorDataSetRequest": {
+        "type": "object",
+        "description": "Replace a page's Elementor data (validated, then CSS cache is cleared). Export or read the current data first.",
+        "required": [
+          "action",
+          "params"
+        ],
+        "properties": {
+          "action": {
+            "type": "string",
+            "enum": [
+              "elementor_data_set"
+            ]
+          },
+          "params": {
+            "type": "object",
+            "properties": {
+              "post_id": {
+                "type": "number",
+                "description": "Post ID"
+              },
+              "data": {
+                "description": "Elementor data (JSON string or array)"
+              }
+            },
+            "required": [
+              "post_id",
+              "data"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "additionalProperties": false
+      },
+      "TemplateExportRequest": {
+        "type": "object",
+        "description": "Export a page's Elementor data + settings so it can be copied to another site with template_import.",
+        "required": [
+          "action",
+          "params"
+        ],
+        "properties": {
+          "action": {
+            "type": "string",
+            "enum": [
+              "template_export"
+            ]
+          },
+          "params": {
+            "type": "object",
+            "properties": {
+              "post_id": {
+                "type": "number",
+                "description": "Post ID"
+              }
+            },
+            "required": [
+              "post_id"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "additionalProperties": false
+      },
+      "TemplateImportRequest": {
+        "type": "object",
+        "description": "Create or update a page from exported Elementor data (typically produced by template_export on another site).",
+        "required": [
+          "action",
+          "params"
+        ],
+        "properties": {
+          "action": {
+            "type": "string",
+            "enum": [
+              "template_import"
+            ]
+          },
+          "params": {
+            "type": "object",
+            "properties": {
+              "title": {
+                "type": "string",
+                "description": "Page title"
+              },
+              "elementor_data": {
+                "description": "Elementor data from template_export"
+              },
+              "post_id": {
+                "type": "number",
+                "description": "Update this post instead of creating a new one"
+              },
+              "post_type": {
+                "type": "string",
+                "description": "Post type"
+              },
+              "post_status": {
+                "type": "string",
+                "description": "Post status, prefer draft"
+              },
+              "elementor_page_settings": {
+                "type": "object",
+                "description": "Page settings from template_export"
+              },
+              "page_template": {
+                "type": "string",
+                "description": "Page template"
+              }
+            },
+            "required": [
+              "title",
+              "elementor_data"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "additionalProperties": false
+      },
+      "SuccessResponse": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean"
+          },
+          "data": {
+            "description": "Action result"
+          }
+        }
+      },
+      "ErrorResponse": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string",
+            "example": "wp_ssh_bad_key"
+          },
+          "message": {
+            "type": "string"
+          },
+          "data": {
+            "type": "object",
+            "properties": {
+              "status": {
+                "type": "integer"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
